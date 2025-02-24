@@ -1,0 +1,158 @@
+{
+	"name": "swaping of arrays",
+	"properties": {
+		"activities": [
+			{
+				"name": "LeftElement",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LeftElement",
+					"value": {
+						"value": "@take(variables('InputArray'),pipeline().parameters.Index1)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "RightElement",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "RightElement",
+					"value": {
+						"value": "@skip(variables('InputArray'),add(pipeline().parameters.Index2,1))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "OutputArray",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "LeftElement",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "RightElement",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "MiddleElement",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "OutputArray",
+					"value": {
+						"value": "@createArray(variables('LeftElement'),variables('InputArray')[pipeline().parameters.Index2],variables('InputArray')[pipeline().parameters.Index1],variables('RightElement'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "FinalArray",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "OutputArray",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "FinalArray",
+					"value": {
+						"value": "@json(concat('[',replace(replace(string(variables('OutputArray')),'[',''),']',''),']'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "MiddleElement",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "MiddleElement",
+					"value": {
+						"value": "@skip(variables('InputArray'),add(pipeline().parameters.Index1,1))",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"Index1": {
+				"type": "int",
+				"defaultValue": 1
+			},
+			"Index2": {
+				"type": "int",
+				"defaultValue": 5
+			}
+		},
+		"variables": {
+			"InputArray": {
+				"type": "Array",
+				"defaultValue": [
+					54,
+					32,
+					68,
+					43,
+					59,
+					62,
+					71
+				]
+			},
+			"LeftElement": {
+				"type": "Array"
+			},
+			"RightElement": {
+				"type": "Array"
+			},
+			"OutputArray": {
+				"type": "Array"
+			},
+			"FinalArray": {
+				"type": "Array"
+			},
+			"MiddleElement": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}
