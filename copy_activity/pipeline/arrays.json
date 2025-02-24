@@ -1,0 +1,133 @@
+{
+	"name": "arrays",
+	"properties": {
+		"activities": [
+			{
+				"name": "LengthOfArray",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LengthOfArray",
+					"value": {
+						"value": "@string(length(pipeline().parameters.InputArray))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "RangeOfIndex",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "LengthOfArray",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "RangeOfIndex",
+					"value": {
+						"value": "@range(0,length(pipeline().parameters.InputArray))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "RangeOfIndex",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('RangeOfIndex')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "OutputArray",
+								"value": {
+									"value": "@pipeline().parameters.InputArray[sub(length(pipeline().parameters.InputArray),add(item(),1))]",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "FinalArray",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "FinalArray",
+					"value": {
+						"value": "@variables('OutputArray')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"InputArray": {
+				"type": "array",
+				"defaultValue": [
+					"a",
+					"b",
+					"c",
+					"d"
+				]
+			}
+		},
+		"variables": {
+			"LengthOfArray": {
+				"type": "String"
+			},
+			"RangeOfIndex": {
+				"type": "Array"
+			},
+			"OutputArray": {
+				"type": "Array"
+			},
+			"FinalArray": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}
