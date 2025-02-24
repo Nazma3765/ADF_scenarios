@@ -1,0 +1,37 @@
+{
+	"name": "copyfromsinkk",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure8",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"game": {
+				"type": "string",
+				"defaultValue": "android"
+			},
+			"playertype": {
+				"type": "string",
+				"defaultValue": "games"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().game,'.',dataset().playertype,'_output.csv')",
+					"type": "Expression"
+				},
+				"fileSystem": "adlsoutputt"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

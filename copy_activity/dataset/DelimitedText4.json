@@ -1,0 +1,37 @@
+{
+	"name": "DelimitedText4",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure8",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"country": {
+				"type": "string",
+				"defaultValue": "android"
+			},
+			"playertype": {
+				"type": "string",
+				"defaultValue": "games"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().country,'.',dataset().playertype,'_output.csv')",
+					"type": "Expression"
+				},
+				"fileSystem": "adlsoutputr"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

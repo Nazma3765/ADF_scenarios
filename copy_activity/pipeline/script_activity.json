@@ -1,0 +1,36 @@
+{
+	"name": "script_activity",
+	"properties": {
+		"activities": [
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase8",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "declare @newidfromproc int\r\nexecute addnewbook @newbooktitle = 'the junk', @newbookauthor = 'junk', @newbookgenre = 'non fiction',@newbookid=@newidfromproc output"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-02-21T07:17:26Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

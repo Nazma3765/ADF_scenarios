@@ -1,0 +1,37 @@
+{
+	"name": "DelimitedText6",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure8",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"country": {
+				"type": "string",
+				"defaultValue": "Sri Lanka"
+			},
+			"company": {
+				"type": "string",
+				"defaultValue": "Carpenter-Cook"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().country,dataset().company,'.csv')",
+					"type": "Expression"
+				},
+				"fileSystem": "azurev"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

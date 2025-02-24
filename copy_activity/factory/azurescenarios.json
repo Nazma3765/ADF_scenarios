@@ -1,0 +1,9 @@
+{
+	"name": "azurescenarios",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ee4c6e63-63d6-4686-bc4e-749beda9cd7c",
+		"tenantId": "39cac908-6ac7-42b9-93cd-ee83dc6d7623"
+	}
+}

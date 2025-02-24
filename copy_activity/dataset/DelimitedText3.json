@@ -1,0 +1,98 @@
+{
+	"name": "DelimitedText3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure8",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"country": {
+				"type": "string",
+				"defaultValue": "android"
+			},
+			"playertype": {
+				"type": "string",
+				"defaultValue": "games"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().country,'.',dataset().playertype,'.csv')",
+					"type": "Expression"
+				},
+				"fileSystem": "input"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "rank",
+				"type": "String"
+			},
+			{
+				"name": "title",
+				"type": "String"
+			},
+			{
+				"name": "total ratings",
+				"type": "String"
+			},
+			{
+				"name": "installs",
+				"type": "String"
+			},
+			{
+				"name": "average rating",
+				"type": "String"
+			},
+			{
+				"name": "growth (30 days)",
+				"type": "String"
+			},
+			{
+				"name": "growth (60 days)",
+				"type": "String"
+			},
+			{
+				"name": "price",
+				"type": "String"
+			},
+			{
+				"name": "category",
+				"type": "String"
+			},
+			{
+				"name": "5 star ratings",
+				"type": "String"
+			},
+			{
+				"name": "4 star ratings",
+				"type": "String"
+			},
+			{
+				"name": "3 star ratings",
+				"type": "String"
+			},
+			{
+				"name": "2 star ratings",
+				"type": "String"
+			},
+			{
+				"name": "1 star ratings",
+				"type": "String"
+			},
+			{
+				"name": "paid",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

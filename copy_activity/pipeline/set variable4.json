@@ -1,0 +1,68 @@
+{
+	"name": "set variable4",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "var",
+					"value": "cloud knoweldge channel"
+				}
+			},
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(variables('var'),'cloud knoweldge channel')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "newwar",
+								"value": "cloud knoweldge channel"
+							}
+						}
+					],
+					"timeout": "0.00:00:15"
+				}
+			}
+		],
+		"variables": {
+			"var": {
+				"type": "String"
+			},
+			"newwar": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-02-21T08:33:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

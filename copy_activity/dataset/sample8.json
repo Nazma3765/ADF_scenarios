@@ -1,0 +1,37 @@
+{
+	"name": "sample8",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure8",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sample": {
+				"type": "string",
+				"defaultValue": "number"
+			},
+			"customers": {
+				"type": "string",
+				"defaultValue": "data"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().customers,'.',dataset().sample,'.csv')",
+					"type": "Expression"
+				},
+				"fileSystem": "input"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
