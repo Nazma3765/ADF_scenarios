@@ -67,7 +67,7 @@
 				"typeProperties": {
 					"variableName": "OutputArray",
 					"value": {
-						"value": "@createArray(variables('LeftElement'),variables('InputArray')[pipeline().parameters.Index2],variables('MiddleElement'),variables('InputArray')[pipeline().parameters.Index1],variables('RightElement'))",
+						"value": "@createArray(if(empty(variables('LeftElement')),'', variables('LeftElement')),if(empty(string(variables('InputArray')[pipeline().parameters.Index2])),'',variables('InputArray')[pipeline().parameters.Index2]),if(empty(variables('MiddleElement')),'',variables('MiddleElement')),if(empty(string(variables('InputArray')[pipeline().parameters.Index1])),'',variables('InputArray')[pipeline().parameters.Index1]),if(empty(variables('RightElement')),'',variables('RightElement')))\n",
 						"type": "Expression"
 					}
 				}
@@ -91,7 +91,7 @@
 				"typeProperties": {
 					"variableName": "FinalArray",
 					"value": {
-						"value": "@json(concat('[',replace(replace(string(variables('OutputArray')),'[',''),']',''),']'))",
+						"value": "@json(concat('[',replace(replace(replace(replace(string(variables('OutputArray')),'[',''),']',''),'\t\"\",',''),',\"\"',''),']'))",
 						"type": "Expression"
 					}
 				}
@@ -117,11 +117,11 @@
 		"parameters": {
 			"Index1": {
 				"type": "int",
-				"defaultValue": 1
+				"defaultValue": 0
 			},
 			"Index2": {
 				"type": "int",
-				"defaultValue": 5
+				"defaultValue": 1
 			}
 		},
 		"variables": {
@@ -129,12 +129,7 @@
 				"type": "Array",
 				"defaultValue": [
 					1,
-					2,
-					3,
-					4,
-					5,
-					6,
-					7
+					2
 				]
 			},
 			"LeftElement": {
