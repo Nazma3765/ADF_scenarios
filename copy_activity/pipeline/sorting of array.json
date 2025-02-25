@@ -1,0 +1,257 @@
+{
+	"name": "sorting of array",
+	"properties": {
+		"activities": [
+			{
+				"name": "InputArray",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "InputArray",
+					"value": {
+						"value": "@pipeline().parameters.InputArray",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "iteration",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "InputArray",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "iteration",
+					"value": {
+						"value": "@range(0,add(length(variables('InputArray')),-1))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "iteration",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@empty(variables('iteration'))",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "CurrentIndex",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "CurrentIndex",
+								"value": {
+									"value": "@string(variables('iteration')[0])",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "NextIndex",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "CurrentIndex",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "NextIndex",
+								"value": {
+									"value": "@string(add(int(variables('iteration')[0]),-1))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "NextIndex",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(variables('CurrentIndex'),variables('NextIndex'))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "left",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "left",
+											"value": {
+												"value": "@take(variables('InputArray'),int(variables('CurrentIndex')))",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "right",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "right",
+											"value": {
+												"value": "@skip(variables('InputArray'),add(int(variables('NextIndex')),1))",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "TempArray",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "left",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											},
+											{
+												"activity": "right",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "TempArray",
+											"value": {
+												"value": "@createArray(if(empty(variables('left')),'',variables('left')),variables('InputArray')[variables('NextIndex')],variables('InputArray')[variables('CurrentIndex')],if(empty(variables('right')),'',variables('right')))",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "SwapedArray",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "TempArray",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "SwapedArray",
+											"value": [
+												""
+											]
+										}
+									}
+								]
+							}
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"InputArray": {
+				"type": "array",
+				"defaultValue": [
+					3,
+					2,
+					1,
+					4
+				]
+			}
+		},
+		"variables": {
+			"InputArray": {
+				"type": "Array"
+			},
+			"iteration": {
+				"type": "Array"
+			},
+			"CurrentIndex": {
+				"type": "String"
+			},
+			"NextIndex": {
+				"type": "String"
+			},
+			"left": {
+				"type": "Array"
+			},
+			"right": {
+				"type": "Array"
+			},
+			"TempArray": {
+				"type": "Array"
+			},
+			"SwapedArray": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}
