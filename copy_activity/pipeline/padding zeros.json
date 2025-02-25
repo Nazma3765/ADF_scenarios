@@ -1,0 +1,65 @@
+{
+	"name": "padding zeros",
+	"properties": {
+		"activities": [
+			{
+				"name": "temp",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "temp",
+					"value": {
+						"value": "@substring(string(pipeline().parameters.InputNumber),sub(length(string(pipeline().parameters.InputNumber)),pipeline().parameters.PaddingValue),pipeline().parameters.PaddingValue)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "output",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "temp",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "output",
+					"value": {
+						"value": "@string(sub(pipeline().parameters.InputNumber,int(variables('temp'))))",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"InputNumber": {
+				"type": "int"
+			},
+			"PaddingValue": {
+				"type": "int"
+			}
+		},
+		"variables": {
+			"temp": {
+				"type": "String"
+			},
+			"output": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
