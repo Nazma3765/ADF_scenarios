@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlTable1",
+	"name": "AzureSqlTable3",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase8",
@@ -7,11 +7,15 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "Column1",
+				"type": "nvarchar"
+			}
+		],
 		"typeProperties": {
 			"schema": "dbo",
 			"table": "newtable"
 		}
-	},
-	"type": "Microsoft.DataFactory/factories/datasets"
+	}
 }

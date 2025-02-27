@@ -24,6 +24,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -77,6 +78,7 @@
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -130,14 +132,14 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "insert into dbo.countoffiless select '@{item().name}',@{int(activity('Filter1').output.ItemsCount)}; select 1 as output",
+										"value": "insert into dbo.countoffiles select '@{item().name}',@{int(activity('Filter1').output.ItemsCount)}; select 1 as output",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
 								"dataset": {
-									"referenceName": "AzureSqlTable1",
+									"referenceName": "AzureSqlTable2",
 									"type": "DatasetReference"
 								}
 							}
